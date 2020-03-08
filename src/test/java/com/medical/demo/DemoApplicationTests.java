@@ -27,11 +27,21 @@ class DemoApplicationTests {
 //        sysUser.setUpdatetime(new Date());
 //        sysUserMapper.insert(sysUser);
 
+//        SysUser sysUser = new SysUser();
+//        sysUser.setUsername("圆润医生");
+//        sysUser.setPassword(new BCryptPasswordEncoder().encode("123"));
+//        sysUser.setNickname("张翠花");
+//        sysUser.setTelephone("13266789906");
+//        sysUser.setStatus(1);
+//        sysUser.setCreatetime(new Date());
+//        sysUser.setUpdatetime(new Date());
+//        sysUserMapper.insert(sysUser);
+
         SysUser sysUser = new SysUser();
-        sysUser.setUsername("圆润医生");
+        sysUser.setUsername("仁心医生");
         sysUser.setPassword(new BCryptPasswordEncoder().encode("123"));
-        sysUser.setNickname("张翠花");
-        sysUser.setTelephone("13266789906");
+        sysUser.setNickname("张加帅");
+        sysUser.setTelephone("13266073906");
         sysUser.setStatus(1);
         sysUser.setCreatetime(new Date());
         sysUser.setUpdatetime(new Date());

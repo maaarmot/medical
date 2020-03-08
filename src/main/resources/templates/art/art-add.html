@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html class="x-admin-sm" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+    <meta charset="UTF-8">
+    <title>文章列表</title>
+    <header th:replace="header::html"></header>
+    <link rel="stylesheet" href="/css/editormd.min.css"/>
+    <script src="/js/editormd.min.js"></script>
+</head>
+
+<body class="">
+<div class="x-nav">
+      <span class="layui-breadcrumb">
+        <a href="">资源管理</a>
+        <a href="">文章列表</a>
+        <a>
+          <cite>发布文章</cite></a>
+      </span>
+    <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right"
+       href="javascript:location.replace(location.href);" title="刷新">
+        <i class="layui-icon layui-icon-refresh" style="line-height:30px"></i></a>
+</div>
+
+<div class="x-body">
+    <div class="layui-fluid">
+        <div class="layui-row  layui-col-space15">
+            <div class="layui-col-md12">
+                <div class="layui-card">
+
+                    <div class="layui-card-header">
+                        <h3><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>发起</h3>
+                        <!--<form class="layui-form layui-col-md12 x-so" id="layuiFormPermission">-->
+                            <!--<a class="layui-btn" id="crollAll" >折叠展开</a>-->
+                            <!--<a class="layui-btn" onclick="xadmin.open('新增科室','/dep/add')" permission="sys:dep:add"><i class="layui-icon"></i>新增科室</a>-->
+                        <!--</form>-->
+                    </div>
+
+                    <form action="/art/add" method="post">
+                        <!--<input type="hidden" name="id" th:value="${id}">-->
+                        <div class="form-group">
+                            <label for="title">问题标题（简单扼要）：</label>
+                            <input type="text" class="form-control" id="title" th:value="${title}" name="title"
+                                   autocomplete="off" placeholder="问题标题">
+                        </div>
+                        <div class="form-group" id="question-editor">
+                            <label for="description">问题补充（必填，请参照右侧提示）：</label>
+                            <textarea name="description" id="description" style="display:none;"
+                                      th:text="${description}" class="form-control" cols="30" rows="10"></textarea>
+                        </div>
+                        <script type="text/javascript">
+                            $(function () {
+                                var editor = editormd("question-editor", {
+                                    width: "80%",
+                                    height: 350,
+                                    path: "/js/lib/",
+                                    delay: 0,
+                                    watch: false,
+                                    placeholder: "请输入文章内容...",
+                                    imageUpload: true,
+                                    imageFormats: ["jpg", "jpeg", "gif", "png", "bmp", "webp"],
+                                    imageUploadURL: "/file/upload"
+                                });
+                            });
+                        </script>
+                        <!--提示输入内容不能为空-->
+                        <div class="tip-sub">
+                            <div>
+                                <div class="alert-tip col-lg-3 col-md-3 col-sm-3 col-xs-12" th:if="${error==null}"></div>
+                            </div>
+                            <div>
+                                <div class="alert alert-danger alert-tip col-lg-3 col-md-3 col-sm-3 col-xs-12"
+                                     th:text="${error}" th:if="${error!=null}"></div>
+                            </div>
+
+                            <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 btn-success-box">
+                                <button type="submit" class="btn btn-success">发布</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $.ajax({
+        url:"/doc/add",
+        type:"POST",
+        data:data.field,
+        dataType:'json',
+        success:function(result){
+            if(result.code == 500 || result.code == 5000100 || result.code == 5000101 || result.code == 5000102){
+                layer.alert(result.msg);
+            }else{
+                layer.alert("设置成功", {icon: 6},function () {
+                    //关闭当前frame
+                    xadmin.close();
+                    // 可以对父窗口进行刷新
+                    xadmin.father_reload();
+                });
+            }
+        }
+    });
+</script>
+</body>
+</html>

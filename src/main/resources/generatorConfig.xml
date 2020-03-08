@@ -40,6 +40,7 @@
 
         <table tableName="doctor" domainObjectName="Doctor" ></table>
         <table tableName="department" domainObjectName="Department" ></table>
+        <table tableName="article" domainObjectName="Article" ></table>
 
     </context>
 </generatorConfiguration>
