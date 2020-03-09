@@ -1,5 +1,6 @@
 package com.medical.demo.service.impl;
 
+import com.medical.demo.base.result.Results;
 import com.medical.demo.mapper.ArticleMapper;
 import com.medical.demo.model.Article;
 import com.medical.demo.model.ArticleExample;
@@ -23,7 +24,13 @@ public class ArticleServiceImpl implements ArticleService {
     }
 
     @Override
-    public void addArticle(Article article) {
+    public Results addArticle(Article article) {
         articleMapper.insert(article);
+        return Results.success();
+    }
+
+    @Override
+    public Article getArticleById(Integer id) {
+        return articleMapper.selectByPrimaryKey(id);
     }
 }

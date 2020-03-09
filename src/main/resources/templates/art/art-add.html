@@ -7,6 +7,8 @@
     <header th:replace="header::html"></header>
     <link rel="stylesheet" href="/css/editormd.min.css"/>
     <script src="/js/editormd.min.js"></script>
+    <!--<script src="/js/lib/marked.min.js"></script>-->
+    <!--<script src="/js/lib/prettify.min.js"></script>-->
 </head>
 
 <body class="">
@@ -36,7 +38,7 @@
                         <!--</form>-->
                     </div>
 
-                    <form action="/art/add" method="post">
+                    <form class="layui-form">
                         <!--<input type="hidden" name="id" th:value="${id}">-->
                         <div class="form-group">
                             <label for="title">问题标题（简单扼要）：</label>
@@ -74,7 +76,7 @@
                             </div>
 
                             <div class="col-lg-9 col-md-9 col-sm-9 col-xs-12 btn-success-box">
-                                <button type="submit" class="btn btn-success">发布</button>
+                                <button type="submit" class="btn btn-success" lay-filter="add" lay-submit="">发布</button>
                             </div>
                         </div>
                     </form>
@@ -84,23 +86,61 @@
     </div>
 </div>
 <script>
-    $.ajax({
-        url:"/doc/add",
-        type:"POST",
-        data:data.field,
-        dataType:'json',
-        success:function(result){
-            if(result.code == 500 || result.code == 5000100 || result.code == 5000101 || result.code == 5000102){
-                layer.alert(result.msg);
-            }else{
-                layer.alert("设置成功", {icon: 6},function () {
-                    //关闭当前frame
-                    xadmin.close();
-                    // 可以对父窗口进行刷新
-                    xadmin.father_reload();
-                });
-            }
-        }
+    layui.use(['form','layer', 'laydate'], function(){
+        $ = layui.jquery;
+        var form = layui.form;
+        //日期
+        // laydate.render({
+        //     elem: '#L_birthday'
+        //     ,format: 'yyyy-MM-dd' //可任意组合
+        // });
+        //
+        // //自定义验证规则
+        // form.verify({
+        //     nikename: function(value){
+        //         if(value.length < 5){
+        //             return '昵称至少得5个字符啊';
+        //         }
+        //     }
+        //     ,telephone: [/(.+){6,12}$/, '电话号码必须6到12位']
+        //     ,pass: [/(.+){6,12}$/, '密码必须6到12位']
+        //     ,repass: function(value){
+        //         if($('#L_pass').val()!=$('#L_repass').val()){
+        //             return '两次密码不一致';
+        //         }
+        //     }
+        // });
+
+        //监听提交
+        form.on('submit(add)', function(data){
+            // var sexRadio = $("[name=sex]:checked");
+            // if(sexRadio == undefined){
+            //     layer.alert("请选择性别");
+            //     return false;
+            // }
+            // data.field.sex = sexRadio.val();
+            $.ajax({
+                url:"/art/add",
+                type:"POST",
+                data:data.field,
+                dataType:'json',
+                success:function(result){
+                    if(result.code == 500 || result.code == 5000100 || result.code == 5000101 || result.code == 5000102){
+                        layer.alert(result.msg);
+                    }else{
+                        layer.alert("成功", {icon: 6},function () {
+                            //关闭当前frame
+                            xadmin.close();
+                            // 可以对父窗口进行刷新
+                            xadmin.father_reload();
+                        });
+                    }
+                }
+            });
+            return false;
+        });
+
+
     });
 </script>
 </body>

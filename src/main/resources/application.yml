@@ -31,6 +31,15 @@ spring:
     # 通过connectProperties属性来打开mergeSql功能；慢SQL记录
     connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=5000
 
+ucloud:
+  ufile:
+    public-key: TOKEN_5df791bb-f8d1-47c5-87cc-242b70ec4a88
+    private-key: 8ec3c146-1bcc-425a-89dc-37c0fac6bf46
+    bucket-name: maaarmot
+    region: cn-bj
+    suffix: ufileos.com
+    expires: 315360000
+
 logging:
   path: E:/demolog
 

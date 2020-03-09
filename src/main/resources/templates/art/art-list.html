@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <title>文章列表</title>
     <header th:replace="header::html"></header>
-    <link rel="stylesheet" href="/css/editormd.min.css"/>
-    <script src="/js/editormd.min.js"></script>
+    <link rel="stylesheet" href="/css/style.css"/>
+    <!--<link rel="stylesheet" href="/css/editormd.min.css"/>-->
+    <!--<script src="/js/editormd.min.js"></script>-->
 </head>
 
 <body class="">
@@ -40,7 +41,9 @@
                             <div class="layui-timeline-content layui-text">
                                 <!--<h3 class="layui-timeline-title" th:text="${article.updateTime}"></h3>-->
                                 <h3 style="color:#333;font-size: 18px;" class="layui-timeline-title" th:text="${#dates.format(article.updateTime, 'yyyy-MM-dd HH:mm')}"></h3>
-                                <p style="font-size: 17px;margin-bottom: 10px" th:text="${article.title}"></p>
+                                <p style="font-size: 17px;margin-bottom: 10px" class="art-list-title">
+                                    <a th:href="@{'/art/detail/'+${article.id}}" th:text="${article.title}"></a>
+                                </p>
                                 <p th:text="${article.description}"></p>
                             </div>
                         </li>

@@ -1,5 +1,7 @@
 package com.medical.demo.controller;
 
+import com.medical.demo.base.result.ResponseCode;
+import com.medical.demo.base.result.Results;
 import com.medical.demo.model.Article;
 import com.medical.demo.service.ArticleService;
 import lombok.extern.slf4j.Slf4j;
@@ -35,22 +37,23 @@ public class ArticleController {
     }
 
     @PostMapping("/add")
-    public String doPublish(@RequestParam("title") String title,
-                            @RequestParam("description") String description,
+    @ResponseBody
+    public Results<Article> doPublish(@RequestParam("title") String title,
+                                      @RequestParam("description") String description,
 //                            @RequestParam("id") Long id,
-                            HttpServletRequest request,
-                            Model model){
+                                      HttpServletRequest request,
+                                      Model model){
         //输入框不能为空的提示应出现在用户未登录的提示后面
         model.addAttribute("title",title);
         model.addAttribute("description",description);
 
         if(title==null||title.equals("")){
             model.addAttribute("error","文章标题不能为空");
-            return "art/art-add";
+            return Results.failure(ResponseCode.PARAMETER_MISSING.getCode(),ResponseCode.PARAMETER_MISSING.getMessage());
         }
         if(description==null||description.equals("")){
             model.addAttribute("error","文章内容不能为空");
-            return "art/art-add";
+            return Results.failure(ResponseCode.PARAMETER_MISSING.getCode(),ResponseCode.PARAMETER_MISSING.getMessage());
         }
 
         Article article = new Article();
@@ -59,9 +62,16 @@ public class ArticleController {
         article.setCreateTime(new Date());
         article.setUpdateTime(new Date());
 ////        article.setId(id);
-        articleService.addArticle(article);
-        return "redirect:/";
+//        articleService.addArticle(article);
+        return articleService.addArticle(article);
 //        return "art/art-list";
+    }
+
+    @GetMapping("/detail/{id}")
+    public String detail(@PathVariable(name="id")Integer id,Model model){
+        Article article=articleService.getArticleById(id);
+        model.addAttribute("article",article);
+        return "art/art-detail";
     }
 
 }
